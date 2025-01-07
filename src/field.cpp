@@ -1,6 +1,8 @@
 #include "field.h"
 
-Field::Field(int rows, int cols) : rows(rows), cols(cols), grid(rows, std::vector<Cell>(cols)) {}
+Field::Field(int rows, int cols) : rows(rows), cols(cols), grid(rows, std::vector<Cell>(cols)), highlightX(0), highlightY(0)  {
+    grid[highlightX][highlightY].setHighlight(true); 
+}
 
 bool Field::isInsideGrid(int x, int y) {
     return 0 <= x && x < rows && 0 <= y && y < cols;
@@ -13,18 +15,10 @@ int Field::getRandomInteger(int min, int max) {
     return distr(gen);
 }
 
-void Field::placeMines(int numMines) {
-    int placedMines = 0;
-
-    while (placedMines < numMines) {
-        int x = getRandomInteger(0, rows - 1);
-        int y = getRandomInteger(0, cols - 1);
-        if (!grid[x][y].getMine()) {
-            grid[x][y].setMine(true);
-            placedMines++;
-        }
-    }
+void Field::setMine(int x, int y, bool value) {
+    grid[x][y].setMine(value);
 }
+
 
 int Field::countNeighborMines(int r, int c) {
     int numMines = 0;
@@ -89,4 +83,13 @@ bool Field::areAllCellsCleared() {
         }
     }
     return true;
+}
+
+void Field::highlightCell(int x, int y) {
+    grid[highlightX][highlightY].setHighlight(false);
+    grid[x][y].setHighlight(true);
+
+    highlightX = x;
+    highlightY = y;
+
 }

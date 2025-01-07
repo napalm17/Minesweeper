@@ -15,6 +15,7 @@ private:
     State state;           // Aktueller Zustand der Zelle
     bool hasMine;          // Gibt an, ob die Zelle eine Mine enthält
     int neighborMines;     // Anzahl der Minen in den Nachbarzellen
+    bool isHighlighted;
 
 public:
     // Standardkonstruktor
@@ -22,6 +23,9 @@ public:
 
     void setMine(bool mine);
     bool getMine();
+    bool getHighlight();
+    void setHighlight(bool value);
+
     bool isExploded();
     bool isHidden();
 

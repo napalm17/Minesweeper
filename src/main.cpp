@@ -3,6 +3,7 @@
 #include <thread>
 #include <stdio.h>
 #include "field.h"
+#include "gameplay.h"
 #include <map>
 #include <array>
 
@@ -65,21 +66,6 @@ std::array<int, 3> SelectDifficulty() {
     return config;
 }
 
-int parseSingleInt(std::string str) {
-    int value;
-    std::cout << "Enter " + str + ":";
-    if (!(std::cin >> value)) {
-        throw std::invalid_argument("Invalid input. Please enter a valid integer.");
-    }
-    return value;
-}
-
-std::string parseCommand() {
-    std::string input;
-    std::cout << "Mark or reveal (m/r): ";
-    std::cin >> input;
-    return input;
-}
 
 int main (int argc, char* argv[]) {
     PrintBanner();
@@ -89,28 +75,11 @@ int main (int argc, char* argv[]) {
     PrintBanner();
 
     Field field(rows, cols);
-    field.placeMines(numMines);
+    //field.placeMines(numMines);
     field.printField();
-    bool isGameOver = false;
 
-    while (!(isGameOver)) {
-        std::string command = parseCommand();
-        int x = parseSingleInt("row");
-        int y = parseSingleInt("column");
-        if (command == "m") {
-            field.toggleMarkCell(x, y);
-        } else if (command == "r") {
-            field.revealCell(x,y);
-            if (field.hasMine(x, y)) {
-                isGameOver = true;
-                std::cout << "\nGame over, you lost.\n" << std::endl;;
-            } else if (field.areAllCellsCleared()) {
-                isGameOver = true;
-                std::cout << "\nGame over, you won.\n" << std::endl;;
-            }
-        } else {
-            std::cout << "Given Command is invalid, try again."  << std::endl;;
-        }
-        field.printField();
-    }
+    GamePlay gameplay(field);
+    gameplay.placeMines(numMines);
+    gameplay.runGame2();
+
 }

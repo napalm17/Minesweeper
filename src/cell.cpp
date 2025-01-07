@@ -15,6 +15,14 @@ bool Cell::isExploded() {
     return state == EXPLODED;
 }
 
+bool Cell::getHighlight() {
+    return isHighlighted;
+}
+
+void Cell::setHighlight(bool value) {
+    isHighlighted = value;
+}
+
 bool Cell::isHidden() {
     return state == HIDDEN;
 }
@@ -26,6 +34,9 @@ void Cell::setNeighborMines(int count) {
 std::string Cell::getSymbol() {
     switch (state) {
         case HIDDEN:
+            if (isHighlighted) {
+                return "◎";
+            }
             return "■";
         case MARKED:
             return "⚑";
