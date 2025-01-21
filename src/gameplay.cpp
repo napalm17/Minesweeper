@@ -18,6 +18,23 @@ void GamePlay::placeMines(int numMines) {
     }
 }
 
+void GamePlay::toggleMarkCell(int x, int y) {
+    field.toggleMarkCell(x, y);
+}
+
+void GamePlay::revealCell(int x, int y) {
+    field.revealNeighborCells(x, y);
+    if (field.hasMine(x, y)) {
+        isGameOver = true;
+        field.revealAll();
+        field.printField();
+        std::cout << "\nGame over, you lost.\n" << std::endl;
+    } else if (field.areAllCellsCleared()) {
+        isGameOver = true;
+        std::cout << "\nGame over, you won.\n" << std::endl;
+    }
+}
+
 void GamePlay::runGame() {
     while (!(isGameOver)) {
         std::string command = Utils::parseCommand();
@@ -68,22 +85,7 @@ void GamePlay::runGame2() {
     }
 }
 
-void GamePlay::toggleMarkCell(int x, int y) {
-    field.toggleMarkCell(x, y);
-}
 
-void GamePlay::revealCell(int x, int y) {
-    field.revealCell(x,y);
-    if (field.hasMine(x, y)) {
-        isGameOver = true;
-        field.revealAll();
-        field.printField();
-        std::cout << "\nGame over, you lost.\n" << std::endl;;
-    } else if (field.areAllCellsCleared()) {
-        isGameOver = true;
-        std::cout << "\nGame over, you won.\n" << std::endl;;
-    }
-}
 
 
 

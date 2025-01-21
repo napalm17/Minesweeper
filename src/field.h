@@ -28,4 +28,6 @@ public:
     bool hasMine(int x, int y);
     bool areAllCellsCleared();
     void highlightCell(int x, int y);
+    void revealNeighborCells(int x, int y);
+
 };

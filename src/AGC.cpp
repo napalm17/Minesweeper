@@ -6,19 +6,19 @@
 AdvancedGameControl::AdvancedGameControl() {
     // Terminal in den nicht-kanonischen Modus versetzen
     termios newSettings;
-    tcgetattr(STDIN_FILENO, &newSettings); // Aktuelle Einstellungen abfragen
-    newSettings.c_lflag &= ~ICANON;       // Kanonischen Modus deaktivieren
-    newSettings.c_lflag &= ~ECHO;         // Echo deaktivieren (optional)
-    tcsetattr(STDIN_FILENO, TCSANOW, &newSettings); // Einstellungen anwenden
+    tcgetattr(STDIN_FILENO, &newSettings);
+    newSettings.c_lflag &= ~ICANON;      
+    newSettings.c_lflag &= ~ECHO;         
+    tcsetattr(STDIN_FILENO, TCSANOW, &newSettings);
 }
 
 AdvancedGameControl::~AdvancedGameControl() {
     // Terminal-Einstellungen wiederherstellen
     termios defaultSettings;
-    tcgetattr(STDIN_FILENO, &defaultSettings); // Aktuelle Einstellungen abfragen
-    defaultSettings.c_lflag |= ICANON;        // Kanonischen Modus aktivieren
-    defaultSettings.c_lflag |= ECHO;          // Echo aktivieren (optional)
-    tcsetattr(STDIN_FILENO, TCSANOW, &defaultSettings); // Einstellungen anwenden
+    tcgetattr(STDIN_FILENO, &defaultSettings);
+    defaultSettings.c_lflag |= ICANON;       
+    defaultSettings.c_lflag |= ECHO;       
+    tcsetattr(STDIN_FILENO, TCSANOW, &defaultSettings);
 }
 
 char AdvancedGameControl::getInput() {

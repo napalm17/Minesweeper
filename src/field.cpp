@@ -41,6 +41,32 @@ void Field::revealCell(int r, int c) {
     }
 }
 
+void Field::revealNeighborCells(int r, int c) {
+    // Ensure the current cell is valid and safe
+    if (!isInsideGrid(r, c) || !grid[r][c].isHidden() || grid[r][c].getMine()) {
+        return;
+    }
+
+    // Reveal the current cell
+    revealCell(r, c);
+
+    // If this cell has neighboring mines, stop further recursion
+    if (countNeighborMines(r, c) > 0) {
+        return;
+    }
+
+    // Process neighboring cells iteratively to avoid recursion depth issues
+    for (int x = r - 1; x <= r + 1; ++x) {
+        for (int y = c - 1; y <= c + 1; ++y) {
+            if (isInsideGrid(x, y) && !(x == r && y == c)) {
+                // Recursive call for valid neighbor
+                revealNeighborCells(x, y);
+            }
+        }
+    }
+}
+
+
 void Field::revealAll() {
     for (int x = 0; x < rows; ++x) {
         for (int y = 0; y < cols; ++y) {
@@ -58,13 +84,16 @@ void Field::toggleMarkCell(int r, int c) {
 }
 
 void Field::printField() {
+    for (int i = 0; i < 50; ++i) {
+        std::cout << std::endl;
+    }
     for (int x = 0; x < rows; ++x) {
         for (int y = 0; y < cols; ++y) {
             std::cout << grid[x][y].getSymbol() << " ";
         }
         std::cout << std::endl; // New line for a new row
     }
-    std::cout << std::endl;
+
 }
 
 bool Field::hasMine(int x, int y) {
@@ -88,8 +117,6 @@ bool Field::areAllCellsCleared() {
 void Field::highlightCell(int x, int y) {
     grid[highlightX][highlightY].setHighlight(false);
     grid[x][y].setHighlight(true);
-
     highlightX = x;
     highlightY = y;
-
-}
+    }

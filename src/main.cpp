@@ -36,8 +36,8 @@ void PrintBanner() {
 std::array<int, 3> getDifficultyConfig(const std::string& difficulty) {
     std::map<std::string, std::array<int, 3>> difficultyMap = {
         {"beginner", {8, 8, 10}},   // rows, cols, numMines
-        {"advanced", {16, 16, 40}},
-        {"pro", {30, 16, 99}}
+        {"advanced", {16, 16, 20}},
+        {"pro", {32, 32, 80}}
     };
 
     if (difficultyMap.find(difficulty) != difficultyMap.end()) {
@@ -75,8 +75,6 @@ int main (int argc, char* argv[]) {
     PrintBanner();
 
     Field field(rows, cols);
-    //field.placeMines(numMines);
-    field.printField();
 
     GamePlay gameplay(field);
     gameplay.placeMines(numMines);

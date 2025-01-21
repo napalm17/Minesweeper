@@ -32,11 +32,11 @@ void Cell::setNeighborMines(int count) {
 }
 
 std::string Cell::getSymbol() {
+    if (isHighlighted) {
+        return "◎";
+        }
     switch (state) {
         case HIDDEN:
-            if (isHighlighted) {
-                return "◎";
-            }
             return "■";
         case MARKED:
             return "⚑";
